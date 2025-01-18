@@ -2,6 +2,7 @@
 
 MINT is a minimalist character-based interpreter but one which aims at fast performance, readability and ease of use. It is written for the Z80 microprocessor and is 2K.
 
+- [Zeal 8-bit Computer](#zeal8bit)
 - [What is MINT?](#what-is-mint)
 - [Reverse Polish Notation (RPN)](<#reverse-polish-notation-(rpn)>)
 - [Numbers in MINT](#numbers-in-mint)
@@ -49,6 +50,24 @@ MINT is a minimalist character-based interpreter but one which aims at fast perf
   - [Miscellaneous](#miscellaneous)
   - [Utility commands](#utility-commands)
   - [Control keys](#control-keys)
+
+## <a name='zeal8bit'></a>Zeal 8-bit Computer
+
+This port of MINT runs on the Zeal 8-bit Computer under Zeal 8-bit OS v0.5.0+
+
+The following changes were made to the original code:
+
+* Converted code to use z88dk-z80asm for the compiler
+* Moved constants.asm/IOSerial.asm to [legacy/](legacy/) folder
+* Moved TEC-1 binaries, and samples to [legacy/](legacy/) folder
+* Added zeal-config.asm and zeal8bit.asm
+* Convert `\r\n` to `\n`, updated references to single `\r` to `\n`
+* Removed excess spaces/tabs at end of lines
+* Fixed case-sensitive label references
+* Removed `ORG` statements (with exception to `ORG ROMSTART` in main.asm)
+* Renamed MAIN.asm to main.asm
+
+
 
 ## <a name='what-is-mint'></a>What is MINT?
 

@@ -1,5 +1,4 @@
 notes.txt
-.vscode/
 test.*.hex
 test.*.lst
 notes.md
@@ -7,3 +6,9 @@ tec-test.z80-1
 tutorial.md
 tutorial-raw.md
 x.md
+
+
+
+*.bin
+*.map
+build/*
