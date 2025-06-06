@@ -3,6 +3,15 @@
 
     PUBLIC getchar
     PUBLIC putchar
+    PUBLIC zealinit
+
+    MACRO KB_MODE MODE
+        ; raw mode
+        ld h, DEV_STDIN
+        ld c, KB_CMD_SET_MODE
+        ld de, MODE
+        IOCTL()
+    ENDM
 
 ;; copied from target/zeal8bit/keyboard/ps2_scan_qwerty.asm
 upper_scan:
@@ -16,6 +25,10 @@ upper_scan:
     DEFB  'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '{', '|', '}', '~', '^' ; 70
 
 
+zealinit:
+    KB_MODE(KB_READ_NON_BLOCK | KB_MODE_RAW)
+    ret
+
 ; Read from the current input stream (keyboard).
 ;   Outputs: A = character
 ;   Destroys: A,F
@@ -24,13 +37,6 @@ getchar:
     push de
     push hl
 
-    ; raw mode
-    ld h, DEV_STDIN
-    ld c, KB_CMD_SET_MODE
-    ld de, KB_READ_NON_BLOCK | KB_MODE_RAW
-    IOCTL()
-
-    ei
     ; loop until a key is pressed
 @waitforkey:
     S_READ3(DEV_STDIN, BUFFER, 3)
@@ -80,17 +86,8 @@ getchar:
     jr @waitforkey
 @error:
     ; an error has occurred, handle it
-    ; DE still contains the buffer address
-    ld (de), a
+    xor a   ; ????
 @read:
-    di
-
-    ; go back to cooked mode
-    ld h, DEV_STDIN
-    ld c, KB_CMD_SET_MODE
-    ld de, KB_READ_BLOCK | KB_MODE_COOKED
-    IOCTL()
-
     ld a, (BUFFER) ; get the code from BUFFER[0]
     pop hl
     pop de

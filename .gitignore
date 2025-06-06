@@ -12,3 +12,4 @@ x.md
 *.bin
 *.map
 build/*
+zeal.ini

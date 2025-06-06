@@ -15,18 +15,19 @@
     FALSE       EQU 0
     UNLIMITED   EQU -1
 
-    CTRL_C      equ 3
-    CTRL_E      equ 5
-    CTRL_H      equ 8
-    CTRL_L      equ 12
-    CTRL_R      equ 18
-    CTRL_S      equ 19
+    CTRL_C      equ 3   ; ???
+    CTRL_E      equ 5   ; edit
+    CTRL_H      equ 8   ; backspace
+    CTRL_L      equ 12  ; list
+    CTRL_R      equ 18  ; reedit
+    CTRL_S      equ 19  ; print stack
 
     BSLASH      equ $5c
 
     include "zeal-config.asm"
     EXTERN getchar
     EXTERN putchar
+    EXTERN zealinit
 
 macro LITDAT len
     db len
@@ -155,6 +156,7 @@ backSpace:
 
 start:
     ld SP,dStack		; start of MINT
+    call zealinit
     call init		    ; setups
     call printStr		; prog count to stack, put code line 235 on stack then call print
     DB "MINT2.0\n", 0x00
@@ -217,7 +219,7 @@ macro:
     ld bc,(vTIBPtr)
     jr interpret2
 
-waitchar1:
+waitchar1:  ; printable character, in theory ... lol
     ld hl,TIB
     add hl,bc
     ld (hl),A               ; store the character in textbuf

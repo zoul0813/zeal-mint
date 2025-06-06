@@ -12,3 +12,9 @@ ${BIN}:
 
 clean:
 	rm -fr ${BUILDDIR}/*
+
+run:
+	$(ZEAL_NATIVE_BIN) -r $(ZEAL_NATIVE_ROM) # -t tf.img -e eeprom.img
+
+native: all run
+
