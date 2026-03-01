@@ -1,4 +1,4 @@
-BIN=../mint.bin
+BIN=mint.bin
 SRCS = MAIN.asm zeal8bit.asm
 BUILDDIR=build
 
